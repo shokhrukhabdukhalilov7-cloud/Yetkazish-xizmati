@@ -1,0 +1,948 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YETKAZ PRO — Barcha Turdagi Yuklarni Tezkor va Ishonchli Yetkazib Berish Xizmati</title>
+    <meta name="description" content="Oziq-ovqat, kichik posilkalar, smartfonlar, santexnika, metall va og'ir fura traklarida xavfsiz yetkazib berish xizmati. Velik, skuter, avto va yirik traklar floti.">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <!-- Dynamic Background Glow -->
+    <div class="bg-glow bg-glow-1"></div>
+    <div class="bg-glow bg-glow-2"></div>
+    <div class="bg-glow bg-glow-3"></div>
+
+    <!-- Header / Navbar -->
+    <header class="navbar" id="navbar">
+        <div class="nav-container">
+            <a href="#" class="brand-logo">
+                <div class="logo-icon-box">
+                    <i class="fa-solid fa-truck-fast"></i>
+                </div>
+                <div class="logo-text-group">
+                    <span class="logo-title">YETKAZ<span class="brand-accent">PRO</span></span>
+                    <span class="logo-tagline">Logistika & Ekspress</span>
+                </div>
+            </a>
+
+            <nav class="nav-links" id="navLinks">
+                <a href="#departments" class="nav-link active"><i class="fa-solid fa-layer-group"></i> Bo'limlar</a>
+                <a href="#fleet" class="nav-link"><i class="fa-solid fa-motorcycle"></i> Transport Floti</a>
+                <a href="#calculator" class="nav-link"><i class="fa-solid fa-calculator"></i> Narx Hisoblash</a>
+                <a href="#tracking" class="nav-link"><i class="fa-solid fa-location-crosshairs"></i> Jonli Kuzatuv</a>
+                <a href="#contact" class="nav-link"><i class="fa-solid fa-phone-volume"></i> Aloqa</a>
+            </nav>
+
+            <div class="nav-actions">
+                <button class="btn btn-outline" id="quickTrackBtn">
+                    <i class="fa-solid fa-barcode"></i> <span>Kuzatish</span>
+                </button>
+
+                <!-- Client Order History button -->
+                <button class="btn btn-outline nav-history-btn" id="navOrderHistoryBtn" style="display: none;" title="Mening buyurtmalarim tarixi">
+                    <i class="fa-solid fa-clock-rotate-left"></i> <span>Tarix</span> <span class="history-badge-count" id="clientOrdersBadge">0</span>
+                </button>
+                
+                <!-- Universal Auth slot (Kirish / Profil) -->
+                <div class="user-auth-slot" id="userAuthSlot">
+                    <button class="btn btn-outline btn-auth" id="navAuthBtn">
+                        <i class="fa-solid fa-arrow-right-to-bracket"></i> <span>Kirish</span>
+                    </button>
+                    <div class="user-profile-badge" id="navUserBadge" style="display: none;">
+                        <i class="fa-solid fa-circle-user"></i>
+                        <span id="navUserName">Mijoz</span>
+                        <button class="btn-logout" id="navLogoutBtn" title="Tizimdan chiqish">
+                            <i class="fa-solid fa-arrow-right-from-bracket"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <button class="btn btn-primary" id="openOrderModalBtn">
+                    <i class="fa-solid fa-paper-plane"></i> <span>Buyurtma Berish</span>
+                </button>
+                <button class="mobile-toggle-btn" id="mobileMenuBtn" aria-label="Menyu">
+                    <i class="fa-solid fa-bars-staggered"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Role Notification Banner (Kim sifatida tizimga kirilgani aniq ko'rinishi uchun) -->
+    <div id="roleNotificationBanner" class="role-notification-banner" style="display: none;">
+        <div class="container role-banner-flex">
+            <div class="role-banner-left">
+                <span class="role-badge-pill pill-role-client" id="bannerRoleBadge">👤 MIJOZ</span>
+                <span id="bannerRoleMessage">Siz tizimdasiz: <strong>Jasur Aliyev</strong></span>
+            </div>
+            <div class="role-banner-actions">
+                <a href="#" class="btn-banner-action" id="bannerPrimaryActionBtn" style="display: none;">
+                    <i class="fa-solid fa-arrow-up-right-from-square"></i> <span id="bannerActionText">O'tish</span>
+                </a>
+                <button class="btn-banner-logout" id="bannerLogoutBtn" title="Hisobdan chiqish">
+                    <i class="fa-solid fa-arrow-right-from-bracket"></i> Chiqish
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="hero-section" id="hero">
+        <div class="container hero-container">
+            <div class="hero-content">
+                <div class="hero-badge">
+                    <span class="pulse-indicator"></span>
+                    <span>24/7 Ishonchli va Tezkor Yetkazib Berish Xizmati</span>
+                </div>
+                <h1 class="hero-title">
+                    Xatdan tortib <span class="gradient-text">30 tonnalik Fura</span> yuklarigacha!
+                </h1>
+                <p class="hero-subtitle">
+                    Oziq-ovqat, 10 kg gacha posilkalar, smartfonlar, santexnika, og'ir metall konstruksiyalargacha barcha toifadagi yuklarni elektrovelik, skuter, avto va xalqaro traklarda o'z vaqtida manzilingizga yetkazamiz.
+                </p>
+
+                <div class="hero-cta-group">
+                    <a href="#calculator" class="btn btn-primary btn-lg">
+                        <i class="fa-solid fa-bolt"></i> Narxni Hisoblash
+                    </a>
+                    <a href="#departments" class="btn btn-glass btn-lg">
+                        <i class="fa-solid fa-cube"></i> Bo'limlarni Ko'rish
+                    </a>
+                </div>
+
+                <div class="hero-metrics">
+                    <div class="metric-card">
+                        <span class="metric-num">15-45 <small>daq</small></span>
+                        <span class="metric-label">Shahar ichi ekspress</span>
+                    </div>
+                    <div class="metric-divider"></div>
+                    <div class="metric-card">
+                        <span class="metric-num">0 - 35 <small>tonna</small></span>
+                        <span class="metric-label">Har qanday vazn</span>
+                    </div>
+                    <div class="metric-divider"></div>
+                    <div class="metric-card">
+                        <span class="metric-num">99.8%</span>
+                        <span class="metric-label">O'z vaqtida yetkazish</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="hero-visual">
+                <div class="fleet-showcase-orbit">
+                    <div class="orbit-center">
+                        <div class="radar-ping"></div>
+                        <i class="fa-solid fa-map-location-dot"></i>
+                        <span>Toshkent & Butun O'zbekiston</span>
+                    </div>
+                    <div class="orbit-badge badge-bike" title="0 - 10 kg: Skuter va Elektro-velik">
+                        <i class="fa-solid fa-bicycle"></i>
+                        <span>Velik & Skuter <br><small>10 kg gacha</small></span>
+                    </div>
+                    <div class="orbit-badge badge-auto" title="10 - 500 kg: Damas & Yengil avtomobil">
+                        <i class="fa-solid fa-car-side"></i>
+                        <span>Avto / Damas <br><small>500 kg gacha</small></span>
+                    </div>
+                    <div class="orbit-badge badge-truck" title="500 kg - 5 tonna: Katta furgon / Isuzu">
+                        <i class="fa-solid fa-truck-moving"></i>
+                        <span>Isuzu / Gazel <br><small>5 tonnagacha</small></span>
+                    </div>
+                    <div class="orbit-badge badge-heavy" title="5 - 35 tonna: Katta Fura va Trak">
+                        <i class="fa-solid fa-truck"></i>
+                        <span>Katta Fura / TIR <br><small>35 tonnagacha</small></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Category Departments Section -->
+    <section class="section departments-section" id="departments">
+        <div class="container">
+            <div class="section-header text-center">
+                <span class="section-tag"><i class="fa-solid fa-boxes-stacked"></i> Asosiy Yo'nalishlar</span>
+                <h2 class="section-title">Yetkazib Berish Bo'limlari</h2>
+                <p class="section-desc">
+                    Yukingiz turiga qarab mos bo'limni tanlang. Har bir bo'lim o'zining maxsus transporti, narx tariflari va xavfsiz qadoqlash standartiga ega.
+                </p>
+            </div>
+
+            <div class="departments-grid">
+                
+                <!-- 1. Oziq-ovqat bo'limi -->
+                <div class="department-card" data-dept="food">
+                    <div class="card-glow"></div>
+                    <div class="dept-badge badge-green">
+                        <i class="fa-solid fa-fire-burner"></i> Issiq & Sovuq Termoboks
+                    </div>
+                    <div class="dept-icon-wrapper food-theme">
+                        <i class="fa-solid fa-utensils"></i>
+                    </div>
+                    <h3 class="dept-title">Oziq-ovqat Bo'limi</h3>
+                    <p class="dept-desc">
+                        Restoran taomlari, fast-food, supermarket mahsulotlari, yangi sabzavot va mevalar. Haroratni saqlovchi maxsus termobokslar orqali issiq va sovuq holda yetkaziladi.
+                    </p>
+                    <div class="dept-specs">
+                        <div class="spec-item">
+                            <i class="fa-solid fa-weight-hanging"></i>
+                            <span>Vazn: <strong>0 - 15 kg</strong></span>
+                        </div>
+                        <div class="spec-item">
+                            <i class="fa-solid fa-clock"></i>
+                            <span>Vaqt: <strong>15 - 40 daqiqa</strong></span>
+                        </div>
+                        <div class="spec-item">
+                            <i class="fa-solid fa-bolt"></i>
+                            <span>Transport: <strong>Elektro-velik, Skuter</strong></span>
+                        </div>
+                    </div>
+                    <div class="dept-card-footer">
+                        <button class="btn btn-dept" onclick="openDepartmentDetails('food')">
+                            <span>Bo'limga Kirish</span>
+                            <i class="fa-solid fa-arrow-right"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- 2. Pochta va Kichik yuklar (10 kg gacha) -->
+                <div class="department-card featured-dept" data-dept="parcel">
+                    <div class="popular-ribbon"><i class="fa-solid fa-star"></i> Ommabop</div>
+                    <div class="card-glow"></div>
+                    <div class="dept-badge badge-blue">
+                        <i class="fa-solid fa-shield-halved"></i> 100% Sug'urtalangan
+                    </div>
+                    <div class="dept-icon-wrapper parcel-theme">
+                        <i class="fa-solid fa-box-open"></i>
+                    </div>
+                    <h3 class="dept-title">Pochta & Kichik Yuklar</h3>
+                    <p class="dept-desc">
+                        Muhim xatlar, shartnomalar, smartfonlar, noutbuklar, smart-soatlar va 10 kg gacha nozik elektronika. Maxsus plombali paket va tezkor kur’yer xizmati.
+                    </p>
+                    <div class="dept-specs">
+                        <div class="spec-item">
+                            <i class="fa-solid fa-weight-hanging"></i>
+                            <span>Vazn: <strong>0.1 - 10 kg gacha</strong></span>
+                        </div>
+                        <div class="spec-item">
+                            <i class="fa-solid fa-mobile-screen-button"></i>
+                            <span>Yuk turi: <strong>Telefon, xat, soat</strong></span>
+                        </div>
+                        <div class="spec-item">
+                            <i class="fa-solid fa-motorcycle"></i>
+                            <span>Transport: <strong>Skuter, Moto-bike, Avto</strong></span>
+                        </div>
+                    </div>
+                    <div class="dept-card-footer">
+                        <button class="btn btn-dept" onclick="openDepartmentDetails('parcel')">
+                            <span>Bo'limga Kirish</span>
+                            <i class="fa-solid fa-arrow-right"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- 3. Santexnika bo'limi -->
+                <div class="department-card" data-dept="plumbing">
+                    <div class="card-glow"></div>
+                    <div class="dept-badge badge-cyan">
+                        <i class="fa-solid fa-faucet-drip"></i> Xavfsiz Mahkamlash
+                    </div>
+                    <div class="dept-icon-wrapper plumbing-theme">
+                        <i class="fa-solid fa-wrench"></i>
+                    </div>
+                    <h3 class="dept-title">Santexnika Bo'limi</h3>
+                    <p class="dept-desc">
+                        Kranlar, plastik quvurlar, vanna, dush kabinalari, isitish qozonlari (kotyollar) va aksessuarlar. Siniq xavfisiz, to'g'ri qadoqlangan va furgonlarda mahkamlangan.
+                    </p>
+                    <div class="dept-specs">
+                        <div class="spec-item">
+                            <i class="fa-solid fa-weight-hanging"></i>
+                            <span>Vazn: <strong>10 kg - 1 500 kg</strong></span>
+                        </div>
+                        <div class="spec-item">
+                            <i class="fa-solid fa-boxes-packing"></i>
+                            <span>Yuk turi: <strong>Kombi, quvur, keramika</strong></span>
+                        </div>
+                        <div class="spec-item">
+                            <i class="fa-solid fa-truck-pickup"></i>
+                            <span>Transport: <strong>Labo, Damas, Isuzu</strong></span>
+                        </div>
+                    </div>
+                    <div class="dept-card-footer">
+                        <button class="btn btn-dept" onclick="openDepartmentDetails('plumbing')">
+                            <span>Bo'limga Kirish</span>
+                            <i class="fa-solid fa-arrow-right"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- 4. Metall va Og'ir Sanoat bo'limi -->
+                <div class="department-card" data-dept="metal">
+                    <div class="card-glow"></div>
+                    <div class="dept-badge badge-orange">
+                        <i class="fa-solid fa-industry"></i> Kran & Bog'lash Tizimi
+                    </div>
+                    <div class="dept-icon-wrapper metal-theme">
+                        <i class="fa-solid fa-cubes-stacked"></i>
+                    </div>
+                    <h3 class="dept-title">Metall Bo'limi</h3>
+                    <p class="dept-desc">
+                        Armatura, metall quvur va profillar, po'lat listlar, burchakliklar (ugolnik), shveller va og'ir metall konstruksiyalarni qurilish maydonlariga yetkazib berish.
+                    </p>
+                    <div class="dept-specs">
+                        <div class="spec-item">
+                            <i class="fa-solid fa-weight-hanging"></i>
+                            <span>Vazn: <strong>500 kg - 15 tonnagacha</strong></span>
+                        </div>
+                        <div class="spec-item">
+                            <i class="fa-solid fa-ruler-combined"></i>
+                            <span>Uzunlik: <strong>6m - 12m metallar</strong></span>
+                        </div>
+                        <div class="spec-item">
+                            <i class="fa-solid fa-truck-ramp-box"></i>
+                            <span>Transport: <strong>Ochiq bort, Isuzu, Shacman</strong></span>
+                        </div>
+                    </div>
+                    <div class="dept-card-footer">
+                        <button class="btn btn-dept" onclick="openDepartmentDetails('metal')">
+                            <span>Bo'limga Kirish</span>
+                            <i class="fa-solid fa-arrow-right"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- 5. Katta Fura va Shaharlararo Trak Logistika -->
+                <div class="department-card" data-dept="truck">
+                    <div class="card-glow"></div>
+                    <div class="dept-badge badge-purple">
+                        <i class="fa-solid fa-globe"></i> Butun O'zbekiston & MDH
+                    </div>
+                    <div class="dept-icon-wrapper truck-theme">
+                        <i class="fa-solid fa-truck-plane"></i>
+                    </div>
+                    <h3 class="dept-title">Katta Trak & Fura Logistika</h3>
+                    <p class="dept-desc">
+                        Shaharlararo va uzoq masofalarga yirik hajmli (20-35 tonna) yuklarni tashish. TIR fura, tent, refrijerator (muzlatgich) va konteyner tashuvchi gigant traklar.
+                    </p>
+                    <div class="dept-specs">
+                        <div class="spec-item">
+                            <i class="fa-solid fa-weight-hanging"></i>
+                            <span>Vazn: <strong>5 000 kg - 35 000 kg</strong></span>
+                        </div>
+                        <div class="spec-item">
+                            <i class="fa-solid fa-route"></i>
+                            <span>Masofa: <strong>Uzoq masofa & Viloyatlar</strong></span>
+                        </div>
+                        <div class="spec-item">
+                            <i class="fa-solid fa-truck"></i>
+                            <span>Transport: <strong>MAN, Scania, DAF Furalar</strong></span>
+                        </div>
+                    </div>
+                    <div class="dept-card-footer">
+                        <button class="btn btn-dept" onclick="openDepartmentDetails('truck')">
+                            <span>Bo'limga Kirish</span>
+                            <i class="fa-solid fa-arrow-right"></i>
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Transport Vehicles Hierarchy & Capabilities -->
+    <section class="section fleet-section" id="fleet">
+        <div class="container">
+            <div class="section-header text-center">
+                <span class="section-tag"><i class="fa-solid fa-gas-pump"></i> Flot Qulayliklari</span>
+                <h2 class="section-title">Har Qanday Vazn Uchun Mos Transport</h2>
+                <p class="section-desc">
+                    Bizning avtoparkimiz 0 kg dan 35 tonnagacha yuklarni mos ravishda optimal transport vositasiga taqsimlaydi, bu esa vaqt va mablag'ingizni tejaydi.
+                </p>
+            </div>
+
+            <div class="fleet-tabs-nav">
+                <button class="fleet-tab-btn active" data-fleet="bikes">
+                    <i class="fa-solid fa-bicycle"></i> 10 kg gacha (Velik / Skuter)
+                </button>
+                <button class="fleet-tab-btn" data-fleet="cars">
+                    <i class="fa-solid fa-car"></i> 10 - 600 kg (Avto / Labo)
+                </button>
+                <button class="fleet-tab-btn" data-fleet="vans">
+                    <i class="fa-solid fa-truck-pickup"></i> 600 kg - 5 t (Isuzu / Gazel)
+                </button>
+                <button class="fleet-tab-btn" data-fleet="traks">
+                    <i class="fa-solid fa-truck"></i> 5 t - 35 t (Katta Fura / TIR)
+                </button>
+            </div>
+
+            <div class="fleet-display-card" id="fleetDisplayCard">
+                <!-- Injected via JavaScript based on tab -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Smart Interactive Calculator -->
+    <section class="section calc-section" id="calculator">
+        <div class="container">
+            <div class="calc-wrapper">
+                <div class="calc-header">
+                    <span class="section-tag"><i class="fa-solid fa-calculator"></i> Onlayn Smeta</span>
+                    <h2 class="section-title">Aqlli Yetkazib Berish Kalkulyatori</h2>
+                    <p class="section-desc">Yuk parametrlari va masofani kiriting — tizim eng maqbul transportni o'zi tanlab beradi va narxni hisoblaydi.</p>
+                </div>
+
+                <div class="calc-body-grid">
+                    <div class="calc-inputs-pane">
+                        
+                        <!-- 1. Bo'lim tanlash -->
+                        <div class="calc-field-group">
+                            <label class="calc-label"><i class="fa-solid fa-cubes"></i> 1. Bo'limni tanlang</label>
+                            <div class="calc-dept-picker">
+                                <label class="dept-radio-label">
+                                    <input type="radio" name="calcDept" value="food" checked>
+                                    <span class="radio-custom-box"><i class="fa-solid fa-utensils"></i> Oziq-ovqat</span>
+                                </label>
+                                <label class="dept-radio-label">
+                                    <input type="radio" name="calcDept" value="parcel">
+                                    <span class="radio-custom-box"><i class="fa-solid fa-box"></i> Pochta (10kg gacha)</span>
+                                </label>
+                                <label class="dept-radio-label">
+                                    <input type="radio" name="calcDept" value="plumbing">
+                                    <span class="radio-custom-box"><i class="fa-solid fa-wrench"></i> Santexnika</span>
+                                </label>
+                                <label class="dept-radio-label">
+                                    <input type="radio" name="calcDept" value="metal">
+                                    <span class="radio-custom-box"><i class="fa-solid fa-industry"></i> Metall</span>
+                                </label>
+                                <label class="dept-radio-label">
+                                    <input type="radio" name="calcDept" value="truck">
+                                    <span class="radio-custom-box"><i class="fa-solid fa-truck"></i> Katta Trak/Fura</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- 2. Vazn tanlash -->
+                        <div class="calc-field-group">
+                            <div class="range-header">
+                                <label class="calc-label" for="weightRange"><i class="fa-solid fa-weight-hanging"></i> 2. Yuk og'irligi</label>
+                                <span class="range-current-val" id="weightValDisplay">5 kg</span>
+                            </div>
+                            <input type="range" class="custom-range" id="weightRange" min="1" max="30000" step="1" value="5">
+                            <div class="range-quick-chips">
+                                <button type="button" class="chip-btn active" data-weight="3">3 kg (Xat/Soat)</button>
+                                <button type="button" class="chip-btn" data-weight="10">10 kg (Pochta)</button>
+                                <button type="button" class="chip-btn" data-weight="150">150 kg (Santexnika)</button>
+                                <button type="button" class="chip-btn" data-weight="2500">2.5 t (Metall)</button>
+                                <button type="button" class="chip-btn" data-weight="22000">22 t (Katta Fura)</button>
+                            </div>
+                        </div>
+
+                        <!-- 3. Masofa tanlash -->
+                        <div class="calc-field-group">
+                            <div class="range-header">
+                                <label class="calc-label" for="distanceRange"><i class="fa-solid fa-route"></i> 3. Masofa (km)</label>
+                                <span class="range-current-val" id="distanceValDisplay">8 km</span>
+                            </div>
+                            <input type="range" class="custom-range" id="distanceRange" min="1" max="1000" step="1" value="8">
+                            <div class="range-quick-chips">
+                                <button type="button" class="chip-btn active" data-dist="8">8 km (Shahar)</button>
+                                <button type="button" class="chip-btn" data-dist="35">35 km (Toshkent vil.)</button>
+                                <button type="button" class="chip-btn" data-dist="300">300 km (Samarqand)</button>
+                                <button type="button" class="chip-btn" data-dist="650">650 km (Buxoro/Xiva)</button>
+                            </div>
+                        </div>
+
+                        <!-- 4. Tezkorlik darajasi -->
+                        <div class="calc-field-group">
+                            <label class="calc-label"><i class="fa-solid fa-stopwatch-20"></i> 4. Yetkazish tezligi</label>
+                            <div class="calc-speed-options">
+                                <label class="speed-radio-label">
+                                    <input type="radio" name="calcSpeed" value="standard" checked>
+                                    <span class="speed-box">
+                                        <i class="fa-solid fa-clock"></i>
+                                        <span>Standart</span>
+                                    </span>
+                                </label>
+                                <label class="speed-radio-label">
+                                    <input type="radio" name="calcSpeed" value="express">
+                                    <span class="speed-box">
+                                        <i class="fa-solid fa-bolt"></i>
+                                        <span>Ekspress (Shoshilinch)</span>
+                                    </span>
+                                </label>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <!-- Natija va Tavsiya qilingan Transport Paneli -->
+                    <div class="calc-result-pane">
+                        <div class="recommended-transport-badge">
+                            <i class="fa-solid fa-sparkles"></i> Optimal Tanlov
+                        </div>
+                        <div class="suggested-vehicle-card" id="suggestedVehicleCard">
+                            <div class="veh-icon-wrapper" id="vehIconWrapper">
+                                <i class="fa-solid fa-motorcycle"></i>
+                            </div>
+                            <h3 class="veh-title" id="vehTitle">Elektro-velik / Skuter</h3>
+                            <p class="veh-description" id="vehDesc">10 kg gacha yuklar uchun eng tezkor va tirbandliksiz tanlov.</p>
+                            
+                            <div class="veh-features-list" id="vehFeatures">
+                                <div><i class="fa-solid fa-check"></i> Tirbandlikda to'xtamaydi</div>
+                                <div><i class="fa-solid fa-check"></i> 10 kg gacha posilka va soatlar uchun ideal</div>
+                            </div>
+                        </div>
+
+                        <div class="calculation-summary-card">
+                            <div class="summary-line">
+                                <span>Hisoblangan masofa:</span>
+                                <strong id="sumDistance">8 km</strong>
+                            </div>
+                            <div class="summary-line">
+                                <span>Yuk og'irligi:</span>
+                                <strong id="sumWeight">5 kg</strong>
+                            </div>
+                            <div class="summary-line">
+                                <span>Kutilayotgan vaqt:</span>
+                                <strong id="sumTime">25-35 daqiqa</strong>
+                            </div>
+                            <div class="summary-divider"></div>
+                            <div class="total-price-box">
+                                <span class="total-label">Taxminiy Narx:</span>
+                                <span class="total-price" id="totalPriceDisplay">25 000 so'm</span>
+                            </div>
+                        </div>
+
+                        <button class="btn btn-primary btn-block btn-lg" id="calcOrderBtn">
+                            <i class="fa-solid fa-cart-flatbed-suitcase"></i> Shu Transportda Buyurtma Berish
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Live Tracking Demonstration Section -->
+    <section class="section tracking-section" id="tracking">
+        <div class="container">
+            <div class="section-header text-center">
+                <span class="section-tag"><i class="fa-solid fa-satellite"></i> Real-Vaqtda Nazorat</span>
+                <h2 class="section-title">Yukingizni Xaritada Jonli Kuzating</h2>
+                <p class="section-desc">Har bir jo'natmaga unikal trek-raqam beriladi. GPS orqali transport marshruti va kuryerni real vaqtda kuzatib boring.</p>
+            </div>
+
+            <div class="tracking-search-bar">
+                <div class="track-input-wrapper">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                    <input type="text" id="trackingCodeInput" placeholder="Trek kodini kiriting (Masalan: YKZ-88219)" value="YKZ-88219">
+                </div>
+                <button class="btn btn-primary" id="trackSearchBtn">
+                    <i class="fa-solid fa-crosshairs"></i> Kuzatish
+                </button>
+            </div>
+
+            <div class="tracking-board-wrapper">
+                <div class="tracking-info-column">
+                    <div class="tracking-status-header">
+                        <div class="status-pill status-active">
+                            <span class="status-dot"></span> Yetkazilmoqda (Yo'lda)
+                        </div>
+                        <span class="track-id">Trek ID: <strong id="trackIdText">#YKZ-88219</strong></span>
+                    </div>
+
+                    <div class="track-timeline">
+                        <div class="timeline-step completed">
+                            <div class="step-icon"><i class="fa-solid fa-check"></i></div>
+                            <div class="step-info">
+                                <h4>Buyurtma qabul qilindi</h4>
+                                <p>Toshkent, Chilonzor ombori • 12:40</p>
+                            </div>
+                        </div>
+                        <div class="timeline-step completed">
+                            <div class="step-icon"><i class="fa-solid fa-box-open"></i></div>
+                            <div class="step-info">
+                                <h4>Qadoqlandi va Skuterga yuklandi</h4>
+                                <p>Kuryer: Jasur Aliyev (Elektro-skuter) • 12:55</p>
+                            </div>
+                        </div>
+                        <div class="timeline-step active">
+                            <div class="step-icon"><i class="fa-solid fa-motorcycle"></i></div>
+                            <div class="step-info">
+                                <h4>Manzil tomon harakatlanmoqda</h4>
+                                <p>Amir Temur ko'chasi bo'ylab • Qolgan vaqt: ~12 daqiqa</p>
+                            </div>
+                        </div>
+                        <div class="timeline-step">
+                            <div class="step-icon"><i class="fa-solid fa-house-chimney"></i></div>
+                            <div class="step-info">
+                                <h4>Manzilga yetib borish</h4>
+                                <p>Kutilmoqda: 13:25</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="courier-card">
+                        <div class="courier-avatar">
+                            <i class="fa-solid fa-user-ninja"></i>
+                        </div>
+                        <div class="courier-details">
+                            <div class="courier-name">Jasur Aliyev</div>
+                            <div class="courier-veh"><i class="fa-solid fa-bolt"></i> Niu NQi Elektro-skuter (01 772 AAA)</div>
+                            <div class="courier-rating"><i class="fa-solid fa-star"></i> 4.98 (340 ta baho)</div>
+                        </div>
+                        <a href="tel:+998901234567" class="courier-call-btn" title="Kuryerga qo'ng'iroq qilish">
+                            <i class="fa-solid fa-phone"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="tracking-map-column">
+                    <div class="simulated-map-container" id="simulatedMap">
+                        <div class="map-grid-lines"></div>
+                        <div class="map-road-1"></div>
+                        <div class="map-road-2"></div>
+                        <div class="map-road-diagonal"></div>
+
+                        <!-- Origin marker -->
+                        <div class="map-pin pin-origin">
+                            <i class="fa-solid fa-warehouse"></i>
+                            <div class="pin-label">Chilonzor Logistika Markazi</div>
+                        </div>
+
+                        <!-- Destination marker -->
+                        <div class="map-pin pin-destination">
+                            <i class="fa-solid fa-location-dot"></i>
+                            <div class="pin-label">Qabul qiluvchi manzili</div>
+                        </div>
+
+                        <!-- Moving vehicle -->
+                        <div class="moving-vehicle-marker" id="movingVehicle">
+                            <div class="vehicle-pulsar"></div>
+                            <i class="fa-solid fa-motorcycle" id="mapVehIcon"></i>
+                            <div class="veh-live-tag">Yetkazilmoqda (45 km/h)</div>
+                        </div>
+
+                        <div class="map-overlay-badge">
+                            <i class="fa-solid fa-satellite-dish"></i> GPS Jonli Telemetriya Faol
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Detailed Department Modal (Bo'limga kirganda to'liq ma'lumot) -->
+    <div class="modal-backdrop" id="departmentModal">
+        <div class="modal-card modal-dept-view">
+            <button class="modal-close-btn" id="closeDeptModalBtn">&times;</button>
+            <div class="modal-dept-content" id="deptModalDynamicContent">
+                <!-- Dynamically filled by JS -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Quick Order Modal -->
+    <div class="modal-backdrop" id="orderModal">
+        <div class="modal-card modal-order-view">
+            <button class="modal-close-btn" id="closeOrderModalBtn">&times;</button>
+            <div class="order-form-header">
+                <div class="logo-icon-box">
+                    <i class="fa-solid fa-box"></i>
+                </div>
+                <h3>Tezkor Buyurtma Rasmiylashtirish</h3>
+                <p>Ma'lumotlarni to'ldiring, buyurtmangiz darhol tegishli bo'limga yo'naltiriladi.</p>
+            </div>
+
+            <form id="orderForm" class="order-form">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label><i class="fa-solid fa-user"></i> Ismingiz / Korxona nomi</label>
+                        <input type="text" id="orderClientName" placeholder="Masalan: Sardor Rustamov" required>
+                    </div>
+                    <div class="form-group">
+                        <label><i class="fa-solid fa-phone"></i> Telefon raqamingiz</label>
+                        <input type="tel" id="orderClientPhone" placeholder="+998 (90) 123-45-67" value="+998 " required>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label><i class="fa-solid fa-layer-group"></i> Xizmat Bo'limi</label>
+                        <select id="orderDeptSelect" required>
+                            <option value="food">Oziq-ovqat Bo'limi (Termoboks)</option>
+                            <option value="parcel" selected>Pochta & Kichik Yuklar (10 kg gacha: xat, telefon, soat)</option>
+                            <option value="plumbing">Santexnika Bo'limi (Quvur, vanna, kotyol)</option>
+                            <option value="metal">Metall Bo'limi (Armatura, profil, po'lat)</option>
+                            <option value="truck">Katta Trak & Fura Logistika (20-35 tonna)</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label><i class="fa-solid fa-truck"></i> Yetkazib Berish Usuli (Transport)</label>
+                        <select id="orderVehicleSelect" required>
+                            <option value="bike">Elektro-velik / Skuter (10 kg gacha tezkor)</option>
+                            <option value="car">Yengil avto / Damas / Labo (500 kg gacha)</option>
+                            <option value="isuzu">Isuzu / Furgon (5 tonnagacha)</option>
+                            <option value="fura">Katta Fura / TIR Trak (35 tonnagacha)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label><i class="fa-solid fa-location-arrow"></i> Qayerdan olinadi (Jo'natuvchi manzili)</label>
+                        <input type="text" id="orderPickupAddress" placeholder="Shahar, tuman, ko'cha, uy raqami" required>
+                    </div>
+                    <div class="form-group">
+                        <label><i class="fa-solid fa-location-dot"></i> Qayerga yetkaziladi (Qabul qiluvchi)</label>
+                        <input type="text" id="orderDeliveryAddress" placeholder="Yetkazish manzili yoki viloyat" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label><i class="fa-solid fa-comment-dots"></i> Yuk tavsifi / Qo'shimcha izoh</label>
+                    <input type="text" id="orderComment" placeholder="Yuk tavsifi (masalan: hujjatlar, iPhone 15, santexnika quvuri)">
+                </div>
+
+                <div class="order-price-preview-strip">
+                    <div>
+                        <span class="preview-strip-lbl">Hisoblangan narx:</span>
+                        <strong class="preview-strip-val" id="orderModalPriceDisplay">25 000 so'm</strong>
+                    </div>
+                    <div style="text-align: right;">
+                        <span class="preview-strip-lbl">Yuk og'irligi:</span>
+                        <strong class="preview-strip-val" id="orderModalWeightDisplay">5 kg</strong>
+                    </div>
+                </div>
+                <input type="hidden" id="orderHiddenPrice" value="25000">
+                <input type="hidden" id="orderHiddenWeight" value="5">
+                <input type="hidden" id="orderHiddenDistance" value="8">
+
+                <button type="submit" class="btn btn-primary btn-block btn-lg" style="margin-top: 14px;">
+                    <i class="fa-solid fa-check-double"></i> Buyurtmani Tasdiqlash
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Authentication Modal (Kirish va Ro'yxatdan O'tish) -->
+    <div class="modal-backdrop" id="authModal">
+        <div class="modal-card modal-auth-view">
+            <button class="modal-close-btn" id="closeAuthModalBtn">&times;</button>
+            
+            <div class="auth-modal-header text-center">
+                <div class="logo-icon-box" style="margin: 0 auto 14px;">
+                    <i class="fa-solid fa-shield-halved"></i>
+                </div>
+                <h3 id="authModalTitle">Tizimga Kirish</h3>
+                <p id="authModalDesc">Yetkazib berish xizmatidan foydalanish uchun hisobingizga kiring.</p>
+            </div>
+
+            <!-- Tab Switcher -->
+            <div class="auth-tabs-switcher">
+                <button type="button" class="auth-tab-btn active" id="tabLoginBtn">
+                    <i class="fa-solid fa-arrow-right-to-bracket"></i> Kirish
+                </button>
+                <button type="button" class="auth-tab-btn" id="tabRegisterBtn">
+                    <i class="fa-solid fa-user-plus"></i> Ro'yxatdan O'tish
+                </button>
+            </div>
+
+            <!-- Login Form -->
+            <form id="loginForm" class="auth-form-pane">
+                <div class="form-group">
+                    <label><i class="fa-solid fa-user"></i> Login</label>
+                    <input type="text" id="loginIdentifier" placeholder="Loginingizni kiriting" required autocomplete="username">
+                </div>
+                <div class="form-group">
+                    <label><i class="fa-solid fa-lock"></i> Maxfiy Parol</label>
+                    <div class="password-input-wrapper">
+                        <input type="password" id="loginPassword" placeholder="Parolingizni kiriting" required autocomplete="current-password">
+                        <button type="button" class="toggle-password-btn" onclick="togglePasswordVisibility('loginPassword')">
+                            <i class="fa-solid fa-eye"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="auth-helper-msg" id="authHelperMsg" style="display: none;"></div>
+
+                <button type="submit" class="btn btn-primary btn-block btn-lg" style="margin-top: 14px;">
+                    <i class="fa-solid fa-arrow-right-to-bracket"></i> Tizimga Kirish
+                </button>
+            </form>
+
+            <!-- Register Form -->
+            <form id="registerForm" class="auth-form-pane" style="display: none;">
+                <div class="form-group">
+                    <label><i class="fa-solid fa-user"></i> To'liq Ismingiz</label>
+                    <input type="text" id="regName" placeholder="Masalan: Sardor Rustamov" required>
+                </div>
+                <div class="form-group">
+                    <label><i class="fa-solid fa-phone"></i> Telefon Raqamingiz</label>
+                    <input type="tel" id="regPhone" placeholder="+998 (90) 123-45-67" value="+998 " required>
+                </div>
+                <div class="form-group">
+                    <label><i class="fa-solid fa-lock"></i> Yangi Parol</label>
+                    <div class="password-input-wrapper">
+                        <input type="password" id="regPassword" placeholder="Kamida 4 ta belgi" required autocomplete="new-password">
+                        <button type="button" class="toggle-password-btn" onclick="togglePasswordVisibility('regPassword')">
+                            <i class="fa-solid fa-eye"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="auth-helper-msg" id="regHelperMsg" style="display: none;"></div>
+
+                <button type="submit" class="btn btn-primary btn-block btn-lg" style="margin-top: 18px;">
+                    <i class="fa-solid fa-user-check"></i> Ro'yxatdan O'tish
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Order Success Modal with generated Tracking ID -->
+    <div class="modal-backdrop" id="successModal">
+        <div class="modal-card modal-success-view text-center">
+            <div class="success-icon-badge">
+                <i class="fa-solid fa-circle-check"></i>
+            </div>
+            <h2>Buyurtma Qabul Qilindi!</h2>
+            <p>Sizning buyurtmangiz tizimga muvaffaqiyatli kiritildi va kuryerga biriktirildi.</p>
+            
+            <div class="success-ticket-box">
+                <span class="ticket-label">Sizning Trek Raqamingiz:</span>
+                <span class="ticket-code" id="generatedTrackCode">YKZ-99412</span>
+                <button class="copy-code-btn" id="copyCodeBtn" title="Nusxalash">
+                    <i class="fa-solid fa-copy"></i>
+                </button>
+            </div>
+
+            <div class="success-action-btns">
+                <button class="btn btn-primary" id="trackNowFromSuccessBtn">
+                    <i class="fa-solid fa-crosshairs"></i> Xaritada Kuzatish
+                </button>
+                <button class="btn btn-glass" id="closeSuccessBtn">Yopish</button>
+            </div>
+        </div>
+    </div>
+    <!-- Client Order History Modal (Mijozning Buyurtmalar Tarixi) -->
+    <div class="modal-backdrop" id="clientHistoryModal">
+        <div class="modal-card modal-history-view">
+            <button class="modal-close-btn" id="closeClientHistoryBtn">&times;</button>
+            <div class="order-form-header">
+                <div class="logo-icon-box" style="background: linear-gradient(135deg, #0284c7, #38bdf8);">
+                    <i class="fa-solid fa-clock-rotate-left"></i>
+                </div>
+                <h3>Mening Buyurtmalarim Tarixi</h3>
+                <p id="clientHistorySubtitle">Sizning hisobingiz orqali amalga oshirilgan barcha yetkazib berishlar.</p>
+            </div>
+
+            <div class="client-history-container" id="clientHistoryContainer">
+                <!-- Dynamically populated by JS -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notification container -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <!-- Footer -->
+    <footer class="footer" id="contact">
+        <div class="container footer-content-grid">
+            <div class="footer-brand-pane">
+                <div class="brand-logo">
+                    <div class="logo-icon-box">
+                        <i class="fa-solid fa-truck-fast"></i>
+                    </div>
+                    <div class="logo-text-group">
+                        <span class="logo-title">YETKAZ<span class="brand-accent">PRO</span></span>
+                        <span class="logo-tagline">O'zbekistonning Ishonchli Yetkazib Berish Xizmati</span>
+                    </div>
+                </div>
+                <p class="footer-desc">
+                    Elektroveliklardan tortib 30 tonnalik ulkan traklargacha bo'lgan to'liq logistika floti. Xatlar, telefonlar, oziq-ovqat, santexnika va metall mahsulotlarini tezkor hamda xavfsiz yetkazamiz.
+                </p>
+                <div class="social-links">
+                    <a href="#" class="social-btn"><i class="fa-brands fa-telegram"></i></a>
+                    <a href="#" class="social-btn"><i class="fa-brands fa-instagram"></i></a>
+                    <a href="#" class="social-btn"><i class="fa-brands fa-facebook"></i></a>
+                    <a href="#" class="social-btn"><i class="fa-brands fa-youtube"></i></a>
+                </div>
+            </div>
+
+            <div class="footer-links-pane">
+                <h4 class="footer-col-title">Bo'limlar</h4>
+                <ul class="footer-links-list">
+                    <li><a href="javascript:void(0)" onclick="openDepartmentDetails('food')"><i class="fa-solid fa-chevron-right"></i> Oziq-ovqat bo'limi</a></li>
+                    <li><a href="javascript:void(0)" onclick="openDepartmentDetails('parcel')"><i class="fa-solid fa-chevron-right"></i> Pochta va Gadjetlar (10kg gacha)</a></li>
+                    <li><a href="javascript:void(0)" onclick="openDepartmentDetails('plumbing')"><i class="fa-solid fa-chevron-right"></i> Santexnika bo'limi</a></li>
+                    <li><a href="javascript:void(0)" onclick="openDepartmentDetails('metal')"><i class="fa-solid fa-chevron-right"></i> Metall va Profillar</a></li>
+                    <li><a href="javascript:void(0)" onclick="openDepartmentDetails('truck')"><i class="fa-solid fa-chevron-right"></i> Katta Fura / TIR Traki</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-links-pane">
+                <h4 class="footer-col-title">Transport Floti</h4>
+                <ul class="footer-links-list">
+                    <li><a href="#fleet"><i class="fa-solid fa-chevron-right"></i> Elektro-velik va Benzinli Bike</a></li>
+                    <li><a href="#fleet"><i class="fa-solid fa-chevron-right"></i> Skuterlar (Ekspress)</a></li>
+                    <li><a href="#fleet"><i class="fa-solid fa-chevron-right"></i> Damas va Labo (600 kg)</a></li>
+                    <li><a href="#fleet"><i class="fa-solid fa-chevron-right"></i> Isuzu Furgon (5 t)</a></li>
+                    <li><a href="#fleet"><i class="fa-solid fa-chevron-right"></i> Og'ir Trakt va Furalar (35 t)</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-contact-pane">
+                <h4 class="footer-col-title">Aloqa Markazi (24/7)</h4>
+                <div class="contact-info-item">
+                    <i class="fa-solid fa-phone"></i>
+                    <div>
+                        <div class="contact-lbl">Yagona Call-markaz</div>
+                        <a href="tel:+998712000000" class="contact-val">+998 (71) 200-00-00</a>
+                    </div>
+                </div>
+                <div class="contact-info-item">
+                    <i class="fa-solid fa-envelope"></i>
+                    <div>
+                        <div class="contact-lbl">Email qo'llab-quvvatlash</div>
+                        <a href="mailto:info@yetkazpro.uz" class="contact-val">info@yetkazpro.uz</a>
+                    </div>
+                </div>
+                <div class="contact-info-item">
+                    <i class="fa-solid fa-location-dot"></i>
+                    <div>
+                        <div class="contact-lbl">Bosh ofis</div>
+                        <span class="contact-val">Toshkent sh., Chilonzor tumani, Logistika Markazi</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <div class="container footer-bottom-flex">
+                <p>&copy; 2026 YetkazPro Xizmati. Barcha huquqlar himoyalangan.</p>
+                <div class="footer-badges">
+                    <span><i class="fa-solid fa-shield-halved"></i> Xavfsiz Yetkazish</span>
+                    <span><i class="fa-solid fa-headset"></i> 24/7 Operator</span>
+                    <span><i class="fa-solid fa-clock"></i> Kafolatlangan muddat</span>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="js/auth.js"></script>
+    <script src="js/orderStore.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>

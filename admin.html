@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YETKAZ PRO — Dispetcher & Admin Boshqaruv Paneli</title>
+    <meta name="description" content="YetkazPro logistika xizmatining barcha buyurtmalarini real vaqtda kuzatish, tasdiqlash va kuryerlarni boshqarish paneli.">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <!-- Custom Styles -->
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/admin.css">
+</head>
+<body class="admin-body">
+
+    <!-- Dynamic Ambient Glows -->
+    <div class="bg-glow bg-glow-1"></div>
+    <div class="bg-glow bg-glow-2"></div>
+
+    <!-- Admin Header -->
+    <header class="admin-header">
+        <div class="admin-header-container">
+            <div class="admin-brand-group">
+                <a href="index.html" class="brand-logo">
+                    <div class="logo-icon-box">
+                        <i class="fa-solid fa-truck-fast"></i>
+                    </div>
+                    <div class="logo-text-group">
+                        <span class="logo-title">YETKAZ<span class="brand-accent">PRO</span></span>
+                        <span class="logo-tagline">Dispetcher Boshqaruv Paneli</span>
+                    </div>
+                </a>
+                <div class="live-sync-indicator" title="Barcha ma'lumotlar real vaqtda yangilanadi">
+                    <span class="live-dot"></span>
+                    <span>Real-Vaqt Sinxron</span>
+                </div>
+
+                <div class="role-badge-indicator" style="background: rgba(245, 158, 11, 0.15); border: 1px solid rgba(245, 158, 11, 0.4); color: var(--accent-amber); font-weight: 800; font-size: 0.82rem; padding: 5px 14px; border-radius: var(--radius-pill); display: inline-flex; align-items: center; gap: 8px;">
+                    <i class="fa-solid fa-shield-halved"></i>
+                    <span>SIZ DISPETCHER (ADMIN) PANELIDASIZ</span>
+                </div>
+            </div>
+
+            <div class="admin-top-actions">
+                <button class="btn btn-outline btn-sm" id="toggleSoundBtn" title="Ovozli bildirishnoma">
+                    <i class="fa-solid fa-volume-high" id="soundIcon"></i> <span id="soundText">Ovoz: Yoniq</span>
+                </button>
+                <button class="btn btn-outline btn-sm" id="resetDataBtn" title="Standart test ma'lumotlarini tiklash">
+                    <i class="fa-solid fa-rotate-left"></i> <span>Tiklash</span>
+                </button>
+                <button class="btn btn-outline btn-sm" id="adminCredsBtn" title="Admin login va parolini almashtirish">
+                    <i class="fa-solid fa-key"></i> <span>Login & Parol</span>
+                </button>
+                <a href="index.html" class="btn btn-glass btn-sm" target="_blank">
+                    <i class="fa-solid fa-arrow-up-right-from-square"></i> <span>Mijoz Sayti</span>
+                </a>
+                <button class="btn btn-outline btn-sm text-rose" id="adminLogoutBtn" title="Tizimdan chiqish">
+                    <i class="fa-solid fa-arrow-right-from-bracket"></i> <span>Chiqish</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Dashboard Container -->
+    <main class="admin-main container">
+        
+        <!-- Navigation View Tabs -->
+        <nav class="admin-views-navbar">
+            <button class="admin-view-tab-btn active" data-view="orders">
+                <i class="fa-solid fa-boxes-packing"></i> <span>Buyurtmalar (Dispetcher)</span>
+                <span class="view-tab-badge" id="navOrdersBadge">0</span>
+            </button>
+            <button class="admin-view-tab-btn" data-view="clients">
+                <i class="fa-solid fa-users"></i> <span>Mijozlar (Foydalanuvchilar)</span>
+                <span class="view-tab-badge" id="navClientsBadge">0</span>
+            </button>
+            <button class="admin-view-tab-btn" data-view="couriers">
+                <i class="fa-solid fa-motorcycle"></i> <span>Yetkazib Beruvchilar (Kuryerlar)</span>
+                <span class="view-tab-badge" id="navCouriersBadge">0</span>
+            </button>
+        </nav>
+
+        <!-- =========================================================
+             VIEW 1: ORDERS (BUYURTMALAR)
+             ========================================================= -->
+        <div class="admin-view-content active" id="viewOrdersPane">
+            <!-- Metrics / KPI Overview -->
+            <section class="admin-metrics-grid">
+                <div class="kpi-card" data-filter="all">
+                    <div class="kpi-icon-box icon-all">
+                        <i class="fa-solid fa-boxes-packing"></i>
+                    </div>
+                    <div class="kpi-info">
+                        <span class="kpi-label">Jami Buyurtmalar</span>
+                        <h3 class="kpi-value" id="metricTotalOrders">0</h3>
+                    </div>
+                </div>
+
+                <div class="kpi-card alert-kpi" data-filter="pending">
+                    <div class="kpi-icon-box icon-pending">
+                        <i class="fa-solid fa-bell"></i>
+                    </div>
+                    <div class="kpi-info">
+                        <span class="kpi-label">Yangi / Kutilmoqda</span>
+                        <h3 class="kpi-value" id="metricPendingOrders">0</h3>
+                    </div>
+                    <div class="kpi-badge" id="pendingAlertBadge">Tasdiqlash kerak!</div>
+                </div>
+
+                <div class="kpi-card" data-filter="in_transit">
+                    <div class="kpi-icon-box icon-transit">
+                        <i class="fa-solid fa-truck-fast"></i>
+                    </div>
+                    <div class="kpi-info">
+                        <span class="kpi-label">Yo'lda / Yetkazilmoqda</span>
+                        <h3 class="kpi-value" id="metricInTransitOrders">0</h3>
+                    </div>
+                </div>
+
+                <div class="kpi-card" data-filter="delivered">
+                    <div class="kpi-icon-box icon-delivered">
+                        <i class="fa-solid fa-circle-check"></i>
+                    </div>
+                    <div class="kpi-info">
+                        <span class="kpi-label">Yetkazildi (Yakunlangan)</span>
+                        <h3 class="kpi-value" id="metricDeliveredOrders">0</h3>
+                    </div>
+                </div>
+
+                <div class="kpi-card">
+                    <div class="kpi-icon-box icon-money">
+                        <i class="fa-solid fa-coins"></i>
+                    </div>
+                    <div class="kpi-info">
+                        <span class="kpi-label">Umumiy Summa</span>
+                        <h3 class="kpi-value" id="metricTotalRevenue">0 so'm</h3>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Dispatch Controls & Filtering -->
+            <section class="dispatch-toolbar">
+                <div class="search-filter-wrapper">
+                    <div class="admin-search-box">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                        <input type="text" id="adminSearchInput" placeholder="Trek-kod (YKZ-...), mijoz ismi yoki telefon...">
+                        <button id="clearSearchBtn" class="clear-input-btn" style="display: none;">&times;</button>
+                    </div>
+
+                    <div class="dept-filter-dropdown">
+                        <select id="adminDeptFilter">
+                            <option value="all">Barcha Bo'limlar</option>
+                            <option value="food">🍏 Oziq-ovqat Bo'limi</option>
+                            <option value="parcel">📱 Pochta (10kg gacha)</option>
+                            <option value="plumbing">🔧 Santexnika Bo'limi</option>
+                            <option value="metal">🏗️ Metall Bo'limi</option>
+                            <option value="truck">🚛 Katta Trak & Fura</option>
+                        </select>
+                    </div>
+
+                    <button class="btn btn-primary" id="adminCreateOrderBtn">
+                        <i class="fa-solid fa-plus"></i> <span>Yangi Buyurtma</span>
+                    </button>
+                </div>
+
+                <div class="status-tabs-nav" id="statusTabsNav">
+                    <button class="status-tab-btn active" data-status="all">
+                        <span>Barchasi</span> <span class="tab-count" id="countAll">0</span>
+                    </button>
+                    <button class="status-tab-btn" data-status="pending">
+                        <span class="status-dot dot-pending"></span>
+                        <span>Kutilmoqda</span> <span class="tab-count count-pending" id="countPending">0</span>
+                    </button>
+                    <button class="status-tab-btn" data-status="confirmed">
+                        <span class="status-dot dot-confirmed"></span>
+                        <span>Tasdiqlangan</span> <span class="tab-count" id="countConfirmed">0</span>
+                    </button>
+                    <button class="status-tab-btn" data-status="in_transit">
+                        <span class="status-dot dot-transit"></span>
+                        <span>Yo'lda</span> <span class="tab-count" id="countInTransit">0</span>
+                    </button>
+                    <button class="status-tab-btn" data-status="delivered">
+                        <span class="status-dot dot-delivered"></span>
+                        <span>Yetkazildi</span> <span class="tab-count" id="countDelivered">0</span>
+                    </button>
+                </div>
+            </section>
+
+            <!-- Orders Table Area -->
+            <section class="admin-table-container">
+                <div class="table-card">
+                    <div class="table-responsive">
+                        <table class="admin-orders-table" id="adminOrdersTable">
+                            <thead>
+                                <tr>
+                                    <th>Trek ID</th>
+                                    <th>Mijoz & Telefon</th>
+                                    <th>Bo'lim & Yuk</th>
+                                    <th>Vazn & Transport</th>
+                                    <th>Manzil (Yo'nalish)</th>
+                                    <th>Narx</th>
+                                    <th>Holat (Status)</th>
+                                    <th class="text-right">Boshqaruv (Amallar)</th>
+                                </tr>
+                            </thead>
+                            <tbody id="ordersTableBody">
+                                <!-- Populated dynamically via JS -->
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Empty State -->
+                    <div class="table-empty-state" id="tableEmptyState" style="display: none;">
+                        <i class="fa-solid fa-box-open"></i>
+                        <h4>Hech qanday buyurtma topilmadi</h4>
+                        <p>Qidiruv so'zini yoki tanlangan filtrlarni o'zgartirib ko'ring.</p>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- =========================================================
+             VIEW 2: CLIENTS (MIJOZLAR / FOYDALANUVCHILAR)
+             ========================================================= -->
+        <div class="admin-view-content" id="viewClientsPane">
+            <section class="dispatch-toolbar">
+                <div class="search-filter-wrapper">
+                    <div class="admin-search-box">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                        <input type="text" id="clientSearchInput" placeholder="Mijoz ismi yoki telefon raqami bo'yicha qidiruv...">
+                    </div>
+                </div>
+            </section>
+
+            <section class="admin-table-container">
+                <div class="table-card">
+                    <div class="table-responsive">
+                        <table class="admin-orders-table">
+                            <thead>
+                                <tr>
+                                    <th>Mijoz ID</th>
+                                    <th>Foydalanuvchi Ismi</th>
+                                    <th>Telefon Raqami</th>
+                                    <th>Ro'yxatdan O'tgan Sana</th>
+                                    <th>Jami Buyurtmalar</th>
+                                    <th>Holati</th>
+                                </tr>
+                            </thead>
+                            <tbody id="clientsTableBody">
+                                <!-- Dynamically populated by JS -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- =========================================================
+             VIEW 3: COURIERS (YUK YETKAZIB BERUVCHILAR / KURYERLAR)
+             ========================================================= -->
+        <div class="admin-view-content" id="viewCouriersPane">
+            <section class="dispatch-toolbar">
+                <div class="search-filter-wrapper">
+                    <div class="admin-search-box">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                        <input type="text" id="courierSearchInput" placeholder="Kuryer ismi, transport yoki davlat raqami...">
+                    </div>
+                    <button class="btn btn-primary" id="openAddCourierModalBtn">
+                        <i class="fa-solid fa-user-plus"></i> <span>Yangi Kuryer Qo'shish</span>
+                    </button>
+                </div>
+            </section>
+
+            <section class="admin-table-container">
+                <div class="table-card">
+                    <div class="table-responsive">
+                        <table class="admin-orders-table">
+                            <thead>
+                                <tr>
+                                    <th>Kuryer ID</th>
+                                    <th>Ism & Familiya</th>
+                                    <th>Telefon Raqami</th>
+                                    <th>Transport & Rusumi</th>
+                                    <th>Davlat Raqami</th>
+                                    <th>Login & Parol</th>
+                                    <th>Holati</th>
+                                    <th class="text-right">Amal</th>
+                                </tr>
+                            </thead>
+                            <tbody id="couriersTableBody">
+                                <!-- Dynamically populated by JS -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+    </main>
+
+    <!-- Order Detail & Action Modal -->
+    <div class="modal-backdrop" id="adminDetailModal">
+        <div class="modal-card modal-admin-detail">
+            <button class="modal-close-btn" id="closeAdminDetailBtn">&times;</button>
+            
+            <div class="admin-modal-header">
+                <div class="header-track-box">
+                    <span class="modal-sub">Buyurtma tafsilotlari</span>
+                    <h2 id="modalDetailTrackId">#YKZ-88219</h2>
+                </div>
+                <div id="modalDetailStatusPill" class="modal-status-badge">
+                    <!-- Dynamic -->
+                </div>
+            </div>
+
+            <div class="admin-modal-body-grid">
+                <!-- Left Column: Order Data -->
+                <div class="order-full-info">
+                    <div class="info-block">
+                        <label><i class="fa-solid fa-user"></i> Mijoz Ma'lumotlari:</label>
+                        <h4 id="modalClientName">Jasur Aliyev</h4>
+                        <p id="modalClientPhone">+998 90 123 45 67</p>
+                    </div>
+
+                    <div class="info-block">
+                        <label><i class="fa-solid fa-boxes-stacked"></i> Yuk va Bo'lim:</label>
+                        <p>Bo'lim: <strong id="modalDeptName">Pochta (10kg gacha)</strong></p>
+                        <p>Tavsif: <span id="modalItemDesc">iPhone 15 Pro Max qutisi</span></p>
+                        <p>Vazn: <strong id="modalWeight">1.2 kg</strong> • Masofa: <strong id="modalDistance">14 km</strong></p>
+                    </div>
+
+                    <div class="info-block">
+                        <label><i class="fa-solid fa-location-dot"></i> Marshrut:</label>
+                        <div class="route-line">
+                            <span class="route-point origin">A</span>
+                            <div>
+                                <small>Olish manzili:</small>
+                                <p id="modalPickup">Chilonzor 9-mavze, 12-uy</p>
+                            </div>
+                        </div>
+                        <div class="route-line">
+                            <span class="route-point dest">B</span>
+                            <div>
+                                <small>Yetkazish manzili:</small>
+                                <p id="modalDelivery">Yunusobod 4-mavze, 45-uy</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="info-block price-block">
+                        <label>To'lov summasi:</label>
+                        <h3 id="modalPrice">28 000 so'm</h3>
+                    </div>
+                </div>
+
+                <!-- Right Column: Dispatch & Actions -->
+                <div class="order-dispatch-control">
+                    <h3><i class="fa-solid fa-sliders"></i> Buyurtmani Boshqarish</h3>
+                    
+                    <div class="dispatch-action-box">
+                        <label for="modalStatusSelect">Holatni O'zgartirish (Status):</label>
+                        <select id="modalStatusSelect" class="admin-select">
+                            <option value="pending">🟡 Kutilmoqda (Yangi)</option>
+                            <option value="confirmed">🔵 Tasdiqlangan (Kuryerga tayyor)</option>
+                            <option value="in_transit">🟣 Yo'lda (Yetkazilmoqda)</option>
+                            <option value="delivered">🟢 Yetkazildi (Yakunlangan)</option>
+                            <option value="cancelled">🔴 Bekor qilindi</option>
+                        </select>
+                    </div>
+
+                    <div class="dispatch-action-box">
+                        <label><i class="fa-solid fa-motorcycle"></i> Kuryer / Haydovchini Biriktirish:</label>
+                        
+                        <!-- Quick select registered courier -->
+                        <div style="margin-bottom: 8px;">
+                            <select id="modalRegisteredCourierSelect" class="admin-select">
+                                <option value="">-- Ro'yxatdagi Kuryerni Tanlash --</option>
+                            </select>
+                        </div>
+
+                        <div class="courier-assign-box">
+                            <input type="text" id="modalCourierName" placeholder="Kuryer ismi (Masalan: Jasur Aliyev)" class="admin-input">
+                            <input type="text" id="modalCourierPhone" placeholder="Kuryer telefoni (+998 90 ...)" class="admin-input">
+                            <input type="text" id="modalCourierVeh" placeholder="Transport va Davlat raqami" class="admin-input">
+                        </div>
+                    </div>
+
+                    <div class="modal-buttons-group">
+                        <button class="btn btn-primary btn-block" id="saveOrderChangesBtn">
+                            <i class="fa-solid fa-floppy-disk"></i> O'zgarishlarni Saqlash
+                        </button>
+                        <button class="btn btn-outline btn-block text-rose" id="deleteOrderBtn">
+                            <i class="fa-solid fa-trash-can"></i> Buyurtmani O'chirish
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Create New Order Admin Modal -->
+    <div class="modal-backdrop" id="adminCreateModal">
+        <div class="modal-card modal-order-view">
+            <button class="modal-close-btn" id="closeAdminCreateBtn">&times;</button>
+            <div class="order-form-header">
+                <div class="logo-icon-box">
+                    <i class="fa-solid fa-plus"></i>
+                </div>
+                <h3>Dispetcher: Yangi Buyurtma Kiritish</h3>
+                <p>Mijozdan qabul qilingan yangi buyurtmani tizimga to'g'ridan-to'g'ri kiritish.</p>
+            </div>
+
+            <form id="adminNewOrderForm" class="order-form">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label><i class="fa-solid fa-user"></i> Mijoz Ismi</label>
+                        <input type="text" id="newOrderName" placeholder="Mijoz ismi" required>
+                    </div>
+                    <div class="form-group">
+                        <label><i class="fa-solid fa-phone"></i> Telefon Raqam</label>
+                        <input type="tel" id="newOrderPhone" placeholder="+998 (90) 123-45-67" value="+998 " required>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label><i class="fa-solid fa-layer-group"></i> Bo'lim</label>
+                        <select id="newOrderDept" required>
+                            <option value="food">Oziq-ovqat Bo'limi</option>
+                            <option value="parcel" selected>Pochta & Kichik Yuklar (10 kg gacha)</option>
+                            <option value="plumbing">Santexnika Bo'limi</option>
+                            <option value="metal">Metall Bo'limi</option>
+                            <option value="truck">Katta Trak & Fura</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label><i class="fa-solid fa-truck"></i> Transport Turi</label>
+                        <select id="newOrderVehicle" required>
+                            <option value="bike">Elektro-velik / Skuter (10 kg gacha)</option>
+                            <option value="car">Damas / Labo (600 kg gacha)</option>
+                            <option value="isuzu">Isuzu / Gazel (5 tonnagacha)</option>
+                            <option value="fura">Katta Fura / TIR Traki (35 tonnagacha)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label><i class="fa-solid fa-weight-hanging"></i> Yuk Og'irligi (kg)</label>
+                        <input type="number" id="newOrderWeight" value="5" min="0.1" step="0.1" required>
+                    </div>
+                    <div class="form-group">
+                        <label><i class="fa-solid fa-coins"></i> Narxi (so'm)</label>
+                        <input type="number" id="newOrderPrice" value="25000" step="1000" required>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label><i class="fa-solid fa-location-arrow"></i> Qayerdan olinadi</label>
+                        <input type="text" id="newOrderPickup" placeholder="Olish manzili" required>
+                    </div>
+                    <div class="form-group">
+                        <label><i class="fa-solid fa-location-dot"></i> Qayerga yetkaziladi</label>
+                        <input type="text" id="newOrderDelivery" placeholder="Yetkazish manzili" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label><i class="fa-solid fa-box"></i> Yuk Tavsifi</label>
+                    <input type="text" id="newOrderDesc" placeholder="Masalan: Telefon, hujjatlar, santexnika quvurlari...">
+                </div>
+
+                <div class="modal-form-actions-row" style="display: flex; gap: 14px; margin-top: 22px;">
+                    <button type="button" class="btn btn-outline btn-lg" id="cancelAdminCreateBtn" style="flex: 1;">
+                        <i class="fa-solid fa-xmark"></i> Bekor qilish
+                    </button>
+                    <button type="submit" class="btn btn-primary btn-lg" style="flex: 1.5;">
+                        <i class="fa-solid fa-plus-circle"></i> Buyurtmani Yaratish
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Create New Courier (Yuk Yetkazib Beruvchi) Modal -->
+    <div class="modal-backdrop" id="addCourierModal">
+        <div class="modal-card modal-order-view">
+            <button class="modal-close-btn" id="closeAddCourierModalBtn">&times;</button>
+            <div class="order-form-header text-center">
+                <div class="logo-icon-box" style="margin: 0 auto 12px; background: linear-gradient(135deg, #10b981, #059669);">
+                    <i class="fa-solid fa-motorcycle"></i>
+                </div>
+                <h3>Yangi Yetkazib Beruvchi (Kuryer) Qo'shish</h3>
+                <p>Kuryer yoki haydovchi ma'lumotlarini to'ldiring va unga shaxsiy login-parol bering.</p>
+            </div>
+
+            <form id="addCourierForm" class="order-form">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label><i class="fa-solid fa-user"></i> Ism va Familiya</label>
+                        <input type="text" id="courierFullName" placeholder="Masalan: Sardor Rustamov" required>
+                    </div>
+                    <div class="form-group">
+                        <label><i class="fa-solid fa-phone"></i> Telefon Raqami</label>
+                        <input type="tel" id="courierPhone" placeholder="+998 (90) 123-45-67" value="+998 " required>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label><i class="fa-solid fa-truck"></i> Transport Toifasi</label>
+                        <select id="courierVehType" required>
+                            <option value="bike">Elektro-velik / Skuter (10 kg gacha)</option>
+                            <option value="car">Damas / Labo (600 kg gacha)</option>
+                            <option value="isuzu">Isuzu / Gazel (5 tonnagacha)</option>
+                            <option value="fura">Katta Fura / TIR Traki (35 tonnagacha)</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label><i class="fa-solid fa-car-side"></i> Transport Modeli / Rusumi</label>
+                        <input type="text" id="courierVehName" placeholder="Masalan: Niu NQi Skuter / Damas Van" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label><i class="fa-solid fa-id-card"></i> Avtomobil Davlat Raqami</label>
+                    <input type="text" id="courierPlateNumber" placeholder="Masalan: 01 772 AAA (Skuter bo'lsa: Raqamsiz)" required>
+                </div>
+
+                <div class="form-row" style="background: rgba(7, 11, 20, 0.6); padding: 14px; border-radius: var(--radius-md); border: 1px dashed rgba(56, 189, 248, 0.3);">
+                    <div class="form-group">
+                        <label><i class="fa-solid fa-user-lock"></i> Kuryer Logini</label>
+                        <input type="text" id="courierLogin" placeholder="kuryer_sardor" required autocomplete="username">
+                    </div>
+                    <div class="form-group">
+                        <label><i class="fa-solid fa-key"></i> Kuryer Paroli</label>
+                        <div class="password-input-wrapper">
+                            <input type="text" id="courierPassword" placeholder="kuryer123" required>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="auth-helper-msg" id="courierHelperMsg" style="display: none;"></div>
+
+                <div class="modal-form-actions-row" style="display: flex; gap: 14px; margin-top: 22px;">
+                    <button type="button" class="btn btn-outline btn-lg" id="cancelAddCourierBtn" style="flex: 1;">
+                        <i class="fa-solid fa-xmark"></i> Bekor qilish
+                    </button>
+                    <button type="submit" class="btn btn-primary btn-lg" style="flex: 1.5;">
+                        <i class="fa-solid fa-user-check"></i> Kuryerni Qo'shish
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Admin Settings Modal (Login va Parolni Almashtirish) -->
+    <div class="modal-backdrop" id="adminSettingsModal">
+        <div class="modal-card modal-auth-view">
+            <button class="modal-close-btn" id="closeAdminSettingsBtn">&times;</button>
+            <div class="order-form-header text-center">
+                <div class="logo-icon-box" style="margin: 0 auto 14px; background: linear-gradient(135deg, #f59e0b, #d97706);">
+                    <i class="fa-solid fa-key"></i>
+                </div>
+                <h3>Admin Login & Parolni Almashtirish</h3>
+                <p>Xavfsizlik maqsadida login va parolingizni yangilang. Eski parol bekor qilinadi.</p>
+            </div>
+
+            <form id="adminSettingsForm" class="auth-form-pane">
+                <div class="form-group">
+                    <label><i class="fa-solid fa-lock"></i> Amaldagi (Eski) Parol</label>
+                    <div class="password-input-wrapper">
+                        <input type="password" id="adminOldPass" placeholder="Hozirgi amaldagi parol" required autocomplete="current-password">
+                        <button type="button" class="toggle-password-btn" onclick="togglePasswordVisibility('adminOldPass')">
+                            <i class="fa-solid fa-eye"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label><i class="fa-solid fa-user-shield"></i> Yangi Admin Login</label>
+                    <input type="text" id="adminNewUsername" placeholder="Yangi login (kamida 4 ta belgi)" required autocomplete="username">
+                </div>
+                <div class="form-group">
+                    <label><i class="fa-solid fa-shield-keyhole"></i> Yangi Parol</label>
+                    <div class="password-input-wrapper">
+                        <input type="password" id="adminNewPass" placeholder="Yangi kuchli parol" required autocomplete="new-password">
+                        <button type="button" class="toggle-password-btn" onclick="togglePasswordVisibility('adminNewPass')">
+                            <i class="fa-solid fa-eye"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="auth-helper-msg" id="settingsHelperMsg" style="display: none;"></div>
+
+                <button type="submit" class="btn btn-primary btn-block btn-lg" style="margin-top: 18px;">
+                    <i class="fa-solid fa-floppy-disk"></i> Login va Parolni Yangilash
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Toast Notification Container -->
+    <div class="toast-container" id="adminToastContainer"></div>
+
+    <!-- Scripts -->
+    <script src="js/auth.js"></script>
+    <script src="js/orderStore.js"></script>
+    <script src="js/admin.js"></script>
+</body>
+</html>

@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Kuryer Ish Paneli | YetkazPro Yetkazib Berish Xizmati</title>
+    
+    <!-- Favicon & SEO -->
+    <meta name="description" content="YetkazPro kuryer va haydovchilarining shaxsiy boshqaruv ish stoli. Buyurtmalarni qabul qilish, yo'lga chiqish va yetkazish.">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%2310b981'><path d='M19 7h-3V6a4 4 0 0 0-8 0v1H5a1 1 0 0 0-1 1v11a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3V8a1 1 0 0 0-1-1z'/></svg>">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- FontAwesome 6 Pro CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/admin.css">
+    <link rel="stylesheet" href="css/courier.css">
+</head>
+<body class="courier-body">
+
+    <!-- Header -->
+    <header class="courier-header">
+        <div class="courier-header-container">
+            <div class="courier-brand">
+                <div class="logo-icon-box">
+                    <i class="fa-solid fa-motorcycle"></i>
+                </div>
+                <div class="courier-brand-title">
+                    <span>YETKAZ<span style="color: var(--accent-emerald);">PRO</span></span>
+                    <span class="courier-brand-sub">Kuryer Kabineti</span>
+                </div>
+            </div>
+
+            <div class="role-badge-indicator" style="background: rgba(16, 185, 129, 0.15); border: 1px solid rgba(16, 185, 129, 0.4); color: var(--accent-emerald); font-weight: 800; font-size: 0.82rem; padding: 5px 14px; border-radius: var(--radius-pill); display: inline-flex; align-items: center; gap: 8px;">
+                <i class="fa-solid fa-motorcycle"></i>
+                <span>SIZ KURYER ISH PANELIDASIZ</span>
+            </div>
+
+            <div class="courier-top-user">
+                <div class="courier-profile-pill">
+                    <div class="courier-avatar-mini" id="headerAvatar">
+                        <i class="fa-solid fa-user-ninja"></i>
+                    </div>
+                    <div>
+                        <div class="courier-name-mini" id="headerCourierName">Kuryer</div>
+                        <div class="courier-veh-mini" id="headerCourierVeh">Transport</div>
+                    </div>
+                </div>
+
+                <a href="index.html" class="btn btn-glass btn-sm" title="Mijozlar bosh sahifasi" style="padding: 8px 14px; font-size: 0.85rem;">
+                    <i class="fa-solid fa-globe"></i> <span>Sayt</span>
+                </a>
+
+                <button class="btn btn-outline btn-sm text-rose" id="courierLogoutBtn" title="Chiqish" style="padding: 8px 14px; font-size: 0.85rem;">
+                    <i class="fa-solid fa-arrow-right-from-bracket"></i> <span>Chiqish</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="courier-main">
+
+        <!-- Courier Profile Hero Card -->
+        <section class="courier-hero-card">
+            <div class="courier-hero-left">
+                <div class="courier-hero-avatar">
+                    <i class="fa-solid fa-id-badge" id="heroVehIcon"></i>
+                </div>
+                <div class="courier-hero-info">
+                    <h2 id="heroCourierName">Kuryer Ismi</h2>
+                    <p style="color: var(--text-secondary); font-size: 0.9rem;" id="heroCourierPhone">+998 90 000 00 00</p>
+                    <div class="courier-hero-tags">
+                        <span class="tag-veh" id="heroVehName"><i class="fa-solid fa-truck"></i> Transport</span>
+                        <span class="tag-plate" id="heroPlateNumber">01 000 AAA</span>
+                        <span class="tag-rating"><i class="fa-solid fa-star"></i> 4.98 Reyting</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Status switcher: Available vs Busy -->
+            <div class="courier-status-switch">
+                <button class="status-switch-btn btn-avail active" id="btnStatusAvail" onclick="setCourierWorkStatus('available')">
+                    <span class="status-dot dot-delivered"></span> Bo'sh (Buyurtmaga tayyor)
+                </button>
+                <button class="status-switch-btn btn-busy" id="btnStatusBusy" onclick="setCourierWorkStatus('on_delivery')">
+                    <span class="status-dot dot-in_transit"></span> Band (Yo'lda)
+                </button>
+            </div>
+        </section>
+
+        <!-- KPI Metrics -->
+        <section class="courier-metrics-grid">
+            <div class="c-metric-card">
+                <div class="c-metric-icon c-icon-active">
+                    <i class="fa-solid fa-route"></i>
+                </div>
+                <div>
+                    <div class="c-metric-val" id="metricActiveOrders">0</div>
+                    <div class="c-metric-lbl">Menga Biriktirilgan</div>
+                </div>
+            </div>
+
+            <div class="c-metric-card">
+                <div class="c-metric-icon c-icon-done">
+                    <i class="fa-solid fa-circle-check"></i>
+                </div>
+                <div>
+                    <div class="c-metric-val" id="metricDeliveredOrders">0</div>
+                    <div class="c-metric-lbl">Yetkazilgan (Tarix)</div>
+                </div>
+            </div>
+
+            <div class="c-metric-card">
+                <div class="c-metric-icon c-icon-money">
+                    <i class="fa-solid fa-wallet"></i>
+                </div>
+                <div>
+                    <div class="c-metric-val" id="metricEarnings">0 so'm</div>
+                    <div class="c-metric-lbl">Yetkazish Daromadi</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Orders Section -->
+        <section>
+            <div class="courier-section-header">
+                <h3 class="courier-section-title">
+                    <i class="fa-solid fa-boxes-packing" style="color: var(--accent-cyan);"></i>
+                    <span>Menga Biriktirilgan Buyurtmalar</span>
+                </h3>
+
+                <div class="courier-tabs-nav">
+                    <button class="c-tab-btn active" data-tab="active" onclick="switchCourierTab('active')">
+                        Faol / Yo'lda
+                    </button>
+                    <button class="c-tab-btn" data-tab="available" onclick="switchCourierTab('available')">
+                        Yangi Ochiq Buyurtmalar
+                    </button>
+                    <button class="c-tab-btn" data-tab="history" onclick="switchCourierTab('history')">
+                        Yetkazilgan Tarix
+                    </button>
+                </div>
+            </div>
+
+            <!-- Orders Container -->
+            <div class="courier-orders-list" id="courierOrdersList">
+                <!-- Dynamically populated by JS -->
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Toast Notifications -->
+    <div class="toast-container" id="courierToastContainer"></div>
+
+    <!-- Scripts -->
+    <script src="js/auth.js"></script>
+    <script src="js/orderStore.js"></script>
+    <script src="js/courier.js"></script>
+</body>
+</html>
